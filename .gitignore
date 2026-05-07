@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.db
+*.sqlite
+.env
+venv/
+taskflow/
+.taskflow/
+env/
+node_modules/
+.DS_Store
