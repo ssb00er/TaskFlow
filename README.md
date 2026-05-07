@@ -2,7 +2,6 @@
 
 A full-stack web application for team collaboration with role-based access control, project management, and real-time task tracking.
 
-![TaskFlow Screenshot](https://via.placeholder.com/800x400?text=TaskFlow+Team+Task+Manager)
 
 ## 🚀 Live Demo
 
