@@ -103,15 +103,6 @@ textarea.form-input{resize:vertical;min-height:80px}
 .modal-close:hover{color:var(--text)}
 .modal-body{padding:24px}
 .modal-footer{padding:0 24px 24px;display:flex;gap:10px;justify-content:flex-end}
-.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:24px}
-.auth-card{width:100%;max-width:420px}
-.auth-logo{text-align:center;margin-bottom:32px}
-.auth-logo-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px}
-.auth-title{font-size:28px;font-weight:700;letter-spacing:-1px}
-.auth-title span{color:var(--accent)}
-.auth-sub{color:var(--text2);font-size:14px;margin-top:4px}
-.auth-toggle{text-align:center;font-size:14px;color:var(--text2);margin-top:20px}
-.auth-toggle a{color:var(--accent);cursor:pointer;font-weight:600}
 .error-msg{background:rgba(239,71,111,0.1);border:1px solid rgba(239,71,111,0.3);color:#ef476f;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -206,20 +197,33 @@ function render(){
   if(state.modal)renderModal();
   renderToasts();
 }
+
+// ✅ FIXED: auth page is now fully centered
 function renderAuth(){
   const isLogin=state.authMode==='login';
-  return `<div class="auth-wrap"><div class="auth-card">
-    <div class="auth-logo"><div class="auth-logo-icon">⚡</div><div class="auth-title">Task<span>Flow</span></div><div class="auth-sub">${isLogin?'Sign in to your workspace':'Create your account'}</div></div>
-    <div class="card"><div id="auth-error"></div>
-      ${!isLogin?`<div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="auth-name" placeholder="Jane Smith"/></div>`:''}
-      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="auth-email" type="email" placeholder="you@company.com"/></div>
-      <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="auth-pass" type="password" placeholder="Min 6 characters"/></div>
-      ${!isLogin?`<div class="form-group"><label class="form-label">Role</label><select class="form-input" id="auth-role"><option value="member">Member</option><option value="admin">Admin</option></select></div>`:''}
-      <button class="btn btn-primary" style="width:100%;justify-content:center" id="auth-submit">${isLogin?'Sign In':'Create Account'}</button>
+  return `
+  <div style="width:100vw;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:24px;">
+    <div style="width:100%;max-width:420px;">
+      <div style="text-align:center;margin-bottom:32px;">
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 12px;">⚡</div>
+        <div style="font-size:28px;font-weight:700;letter-spacing:-1px;">Task<span style="color:var(--accent);">Flow</span></div>
+        <div style="color:var(--text2);font-size:14px;margin-top:4px;">${isLogin?'Sign in to your workspace':'Create your account'}</div>
+      </div>
+      <div class="card">
+        <div id="auth-error"></div>
+        ${!isLogin?`<div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="auth-name" placeholder="Jane Smith"/></div>`:''}
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="auth-email" type="email" placeholder="you@company.com"/></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="auth-pass" type="password" placeholder="Min 6 characters"/></div>
+        ${!isLogin?`<div class="form-group"><label class="form-label">Role</label><select class="form-input" id="auth-role"><option value="member">Member</option><option value="admin">Admin</option></select></div>`:''}
+        <button class="btn btn-primary" style="width:100%;justify-content:center;" id="auth-submit">${isLogin?'Sign In':'Create Account'}</button>
+      </div>
+      <div style="text-align:center;font-size:14px;color:var(--text2);margin-top:20px;">
+        ${isLogin?'No account? <a style="color:var(--accent);cursor:pointer;font-weight:600;" id="auth-toggle-link">Sign up free</a>':'Already have an account? <a style="color:var(--accent);cursor:pointer;font-weight:600;" id="auth-toggle-link">Sign in</a>'}
+      </div>
     </div>
-    <div class="auth-toggle">${isLogin?'No account? <a id="auth-toggle-link">Sign up free</a>':'Already have an account? <a id="auth-toggle-link">Sign in</a>'}</div>
-  </div></div>`;
+  </div>`;
 }
+
 function bindAuth(){
   $('#auth-toggle-link')?.addEventListener('click',()=>{state.authMode=state.authMode==='login'?'signup':'login';render();});
   $('#auth-submit')?.addEventListener('click',async()=>{
